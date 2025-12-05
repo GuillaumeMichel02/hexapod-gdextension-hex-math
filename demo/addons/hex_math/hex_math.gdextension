@@ -1,0 +1,18 @@
+[configuration]
+entry_symbol = "hex_math_library_init"
+compatibility_minimum = "4.5"
+reloadable = true
+
+[libraries]
+macos.debug = "res://addons/hex_math/bin/libhex_math.macos.template_debug.universal.dylib"
+macos.release = "res://addons/hex_math/bin/libhex_math.macos.template_release.universal.dylib"
+windows.debug.x86_64 = "res://addons/hex_math/bin/hex_math.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://addons/hex_math/bin/hex_math.windows.template_release.x86_64.dll"
+linux.debug.x86_64 = "res://addons/hex_math/bin/libhex_math.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://addons/hex_math/bin/libhex_math.linux.template_release.x86_64.so"
+ios.debug = "res://addons/hex_math/bin/libhex_math.ios.template_debug.universal.dylib"
+ios.release = "res://addons/hex_math/bin/libhex_math.ios.template_release.universal.dylib"
+android.debug.arm64 = "res://addons/hex_math/bin/libhex_math.android.template_debug.arm64.so"
+android.release.arm64 = "res://addons/hex_math/bin/libhex_math.android.template_release.arm64.so"
+web.debug.wasm32 = "res://addons/hex_math/bin/libhex_math.web.template_debug.wasm32.wasm"
+web.release.wasm32 = "res://addons/hex_math/bin/libhex_math.web.template_release.wasm32.wasm"

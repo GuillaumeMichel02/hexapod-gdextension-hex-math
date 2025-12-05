@@ -1,0 +1,20 @@
+# Godot-cpp build artifacts
+godot-cpp/bin/
+godot-cpp/gen/
+godot-cpp/__pycache__/
+godot-cpp-build/
+
+# Build outputs
+bin/
+*.os
+*.o
+*.obj
+.sconsign.dblite
+
+# IDE
+.vscode/
+*.xcodeproj
+*.xcworkspace/
+
+# macOS
+.DS_Store

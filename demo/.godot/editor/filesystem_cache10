@@ -1,0 +1,9 @@
+63f7b34db8d8cdea90c76aacccf841ec
+::res://::1764952922
+icon.svg::CompressedTexture2D::5305478231983964954::1764845272::1764845372::1::::<><><>0<>0<>2bbb1b331c4f8e84a312f398a3581db5<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+test_hex.gd::GDScript::434645670168346998::1764939210::0::1::::<>Node2D<><>0<>0<><>::
+test_hex.tscn::PackedScene::7313975136589357051::1764939210::0::1::::<><><>0<>0<><>::uid://ggssyuencvys::::res://test_hex.gd
+::res://addons/::1764845325
+::res://addons/hex_math/::1764845433
+hex_math.gdextension::GDExtension::2931201070474912942::1764845677::0::1::::<><><>0<>0<><>::
+::res://addons/hex_math/bin/::1764952915
