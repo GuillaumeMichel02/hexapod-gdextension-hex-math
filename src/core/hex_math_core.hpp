@@ -299,6 +299,49 @@ namespace hexmath {
         return 1.0; // No crossing found, return destination.
     }
 
+    inline std::vector<Vec2i> get_straight_line(Vec2i from, Vec2i to) {
+        std::vector<Vec2i> result;
+        result.reserve(distance(from, to));
+        int N = distance(from, to);
+        for (int i = 0; i <= N; i++) {
+            Vec2i hex = from.lerp(to, i * (1.0f / N)).round();
+            result.push_back(hex);
+        }
+        return result;
+    }
+
+    inline std::vector<Vec2i> get_corner_aligned_line(Vec2i from, Vec2i to) {
+        std::vector<Vec2i> result;
+        result.reserve(distance(from, to) * 2);
+        result.push_back(from);
+        Vec3f direction(to - from);
+
+        // Bias along the perpendicular direction
+        int N = distance(from, to);
+        Vec2f middle;
+        Vec2f bias;
+        if (std::fabs(direction.q - direction.r) < EPSILON) {
+            bias = Vec2f(EPSILON, -EPSILON);
+        } 
+        else if (std::fabs(direction.q - direction.s) < EPSILON) {
+            bias = Vec2f(EPSILON, 0);
+        } 
+        else {
+            bias = Vec2f(0, -EPSILON);
+        }
+        for (int i = 1; i <= N; i++) {
+            middle = from.lerp(to, i * (1.0f / N));
+            if (i % 2 == 0) {
+                result.push_back(middle.round());
+            }
+            else {
+                result.push_back((middle+bias).round());
+                result.push_back((middle-bias).round());
+            }
+        }
+        return result;
+    }
+
     inline std::vector<Vec2i> hex_dda(Vec2i from, Vec2i to) {
         std::vector<Vec2i> result;
         result.push_back(from);
@@ -316,45 +359,15 @@ namespace hexmath {
 
         if (is_straight_line(direction)) {
             // Straight line optimization
-            int N = distance(from, to);
-            for (int i = 1; i <= N; i++) {
-                Vec2i hex = from.lerp(to, i * (1.0f / N)).round();
-                result.push_back(hex);
-            }
-            return result;
+            return get_straight_line(from, to);
         }
 
         if (is_corner_aligned(direction)) {
             // Corner-aligned optimization
-
-            // Bias along the perpendicular direction
-            int N = distance(from, to);
-            Vec2f middle;
-            Vec2f bias;
-            if (std::fabs(direction.q - direction.r) < EPSILON) {
-                bias = Vec2f(EPSILON, -EPSILON);
-            } else if (std::fabs(direction.q - direction.s) < EPSILON) {
-                bias = Vec2f(EPSILON, 0);
-            } else {
-                bias = Vec2f(0, -EPSILON);
-            }
-            for (int i = 1; i <= N; i++) {
-                middle = from.lerp(to, i * (1.0f / N));
-                if (i % 2 == 0) {
-                    result.push_back(middle.round());
-                }
-                else {
-                    result.push_back((middle+bias).round());
-                    result.push_back((middle-bias).round());
-                }
-            }
-            return result;
+            return get_corner_aligned_line(from, to);
         }
         
-        // Current position (starts at from)
-        Vec3f pos = start;
         Vec2i current = from;
-        int jd = 0;
         // Step through until we reach 'to'
         while (current != to) {
             float t = find_first_boundary_crossing(pos, end);
