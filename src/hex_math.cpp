@@ -43,7 +43,31 @@ HexMath::~HexMath() {
 }
 
 int HexMath::distance(Vector2i a, Vector2i b) {
-    return hexmath::distance({a.x, a.y}, {b.x, b.y});
+    return hexmath::distance(hx(a), hx(b));
+}
+
+float HexMath::distance_to_line(Vector2i coord, Vector2i from, Vector2i to = {0,0}) {
+    return hexmath::distance_to_line(hx(coord), hx(from), hx(to));
+}
+
+float HexMath::distance_to_line_border(Vector2i coord, Vector2i from, Vector2i to = {0,0}) {
+    return hexmath::distance_to_line_border(hx(coord), hx(from), hx(to));
+}
+
+Vector2 HexMath::project(Vector2i coord, Vector2i line) {
+    return gd(hexmath::project(hx(coord), hx(line)));
+}
+
+int HexMath::cross_product(Vector2i a, Vector2i b) {
+    return hexmath::cross_product(hx(a), hx(b));
+}
+
+float HexMath::dot_product(Vector2i a, Vector2i b) {
+    return hexmath::dot_product(hx(a), hx(b));
+}
+
+float HexMath::get_angle(Vector2i a, Vector2i b) {
+    return hexmath::get_angle(hx(a), hx(b));
 }
 
 Vector2i HexMath::get_neighbor(Vector2i coord, int direction) {
@@ -75,20 +99,28 @@ TypedArray<Vector2i> HexMath::get_all_in_range(int radius, Vector2i center = {0,
     return to_typed_array(hexmath::get_all_in_range(radius, hx(center)));
 }
 
-TypedArray<Vector2i> HexMath::get_all_in_ring(int radius, Vector2i center = {0,0}) {
-    return to_typed_array(hexmath::get_all_in_ring(radius, hx(center)));
+TypedArray<Vector2i> HexMath::get_all_in_ring(int radius, int width = 6, int init_direction = 0, Vector2i center = {0,0}) {
+    return to_typed_array(hexmath::get_all_in_ring(radius, width, init_direction, hx(center)));
 }
 
-TypedArray<Vector2i> HexMath::get_all_in_spiral(int radius, Vector2i center = {0,0}) {
-    return to_typed_array(hexmath::get_all_in_spiral(radius, hx(center)));
+TypedArray<Vector2i> HexMath::get_all_in_spiral(int radius, int width = 6, int init_direction = 0, Vector2i center = {0,0}) {
+    return to_typed_array(hexmath::get_all_in_spiral(radius, width, init_direction, hx(center)));
 }
 
-TypedArray<Vector2i> HexMath::get_line(Vector2i from, Vector2i to = {0,0}) {
-    return to_typed_array(hexmath::get_line(hx(from), hx(to)));
+TypedArray<Vector2i> HexMath::get_all_in_line(Vector2i from, Vector2i to = {0,0}) {
+    return to_typed_array(hexmath::get_all_in_line(hx(from), hx(to)));
 }
 
-TypedArray<Vector2i> HexMath::hex_dda(Vector2i from, Vector2i to) {
-    return to_typed_array(hexmath::hex_dda(hx(from), hx(to)));
+TypedArray<Vector2i> HexMath::get_all_in_supercover(Vector2i from, Vector2i to) {
+    return to_typed_array(hexmath::get_all_in_supercover(hx(from), hx(to)));
+}
+
+Vector2i HexMath::rotate(Vector2i coord, int steps, Vector2i center) {
+    return gd(hexmath::rotate(hx(coord), steps, hx(center)));
+}
+
+Vector2i HexMath::reflect(Vector2i coord, int axis, Vector2i center) {
+    return gd(hexmath::reflect(hx(coord), axis, hx(center)));
 }
 
 String HexMath::helper_method() {
@@ -97,16 +129,24 @@ String HexMath::helper_method() {
 
 void HexMath::_bind_methods() {
     ClassDB::bind_static_method("HexMath", D_METHOD("distance", "a", "b"), &HexMath::distance);
+    ClassDB::bind_static_method("HexMath", D_METHOD("distance_to_line", "coord", "from", "to"), &HexMath::distance_to_line);
+    ClassDB::bind_static_method("HexMath", D_METHOD("distance_to_line_border", "coord", "from", "to"), &HexMath::distance_to_line_border); 
+    ClassDB::bind_static_method("HexMath", D_METHOD("project", "coord", "line"), &HexMath::project);
+    ClassDB::bind_static_method("HexMath", D_METHOD("cross_product", "a", "b"), &HexMath::cross_product);
+    ClassDB::bind_static_method("HexMath", D_METHOD("dot_product", "a", "b"), &HexMath::dot_product);
+    ClassDB::bind_static_method("HexMath", D_METHOD("get_angle", "a", "b"), &HexMath::get_angle);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_neighbor", "coord", "direction"), &HexMath::get_neighbor);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_neighbors", "coord"), &HexMath::get_neighbors);
     ClassDB::bind_static_method("HexMath", D_METHOD("hex_to_pixel", "hex", "size"), &HexMath::hex_to_pixel);
     ClassDB::bind_static_method("HexMath", D_METHOD("pixel_to_hex", "pixel", "size"), &HexMath::pixel_to_hex);
     ClassDB::bind_static_method("HexMath", D_METHOD("is_in_range", "coord", "radius"), &HexMath::is_in_range);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_range", "radius", "center"), &HexMath::get_all_in_range);
-    ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_ring", "radius", "center"), &HexMath::get_all_in_ring);
-    ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_spiral", "radius", "center"), &HexMath::get_all_in_spiral);
-    ClassDB::bind_static_method("HexMath", D_METHOD("get_line", "from", "to"), &HexMath::get_line);
-    ClassDB::bind_static_method("HexMath", D_METHOD("hex_dda", "from", "to"), &HexMath::hex_dda);
+    ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_ring", "radius", "width", "init_direction", "center"), &HexMath::get_all_in_ring);
+    ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_spiral", "radius", "width", "init_direction", "center"), &HexMath::get_all_in_spiral);
+    ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_line", "from", "to"), &HexMath::get_all_in_line);
+    ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_supercover", "from", "to"), &HexMath::get_all_in_supercover);
+    ClassDB::bind_static_method("HexMath", D_METHOD("rotate", "coord", "steps", "center"), &HexMath::rotate);
+    ClassDB::bind_static_method("HexMath", D_METHOD("reflect", "coord", "axis", "center"), &HexMath::reflect);
     ClassDB::bind_static_method("HexMath", D_METHOD("helper_method"), &HexMath::helper_method);
 }
 
