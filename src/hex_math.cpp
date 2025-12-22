@@ -104,6 +104,18 @@ bool HexMath::is_in_range(Vector2i coord, int radius) {
     return hexmath::is_in_range(hx(coord), radius);
 }
 
+bool HexMath::is_in_cone(Vector2i coord, int direction, int angle_width, Vector2i center) {
+    return hexmath::is_in_cone(hx(coord), direction, angle_width, hx(center));
+}
+
+bool HexMath::is_in_ring(Vector2i coord, int radius, Vector2i center) {
+    return hexmath::is_in_ring(hx(coord), radius, hx(center));
+}
+
+bool HexMath::is_in_supercover(Vector2i coord, Vector2i from, Vector2i to) {
+    return hexmath::is_in_supercover(hx(coord), hx(from), hx(to));
+}
+
 TypedArray<Vector2i> HexMath::get_all_in_range(int radius, Vector2i center = {0,0}) {
     return to_typed_array(hexmath::get_all_in_range(radius, hx(center)));
 }
@@ -150,6 +162,9 @@ void HexMath::_bind_methods() {
     ClassDB::bind_static_method("HexMath", D_METHOD("pixel_to_hex", "pixel", "size"), &HexMath::pixel_to_hex);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_hex_corners", "center", "size"), &HexMath::get_hex_corners);
     ClassDB::bind_static_method("HexMath", D_METHOD("is_in_range", "coord", "radius"), &HexMath::is_in_range);
+    ClassDB::bind_static_method("HexMath", D_METHOD("is_in_cone", "coord", "direction", "angle_width", "center"), &HexMath::is_in_cone);
+    ClassDB::bind_static_method("HexMath", D_METHOD("is_in_ring", "coord", "radius", "center"), &HexMath::is_in_ring);
+    ClassDB::bind_static_method("HexMath", D_METHOD("is_in_supercover", "coord", "from", "to"), &HexMath::is_in_supercover);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_range", "radius", "center"), &HexMath::get_all_in_range);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_ring", "radius", "width", "init_direction", "center"), &HexMath::get_all_in_ring);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_spiral", "radius", "width", "init_direction", "center"), &HexMath::get_all_in_spiral);
