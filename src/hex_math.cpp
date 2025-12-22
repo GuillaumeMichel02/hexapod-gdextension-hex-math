@@ -91,7 +91,7 @@ Vector2i HexMath::pixel_to_hex(Vector2 pixel, float size) {
     return gd(hexmath::pixel_to_hex(hx(pixel), size)); // Convert from and to Vector2i
 }
 
-std::array<Vector2, 6> HexMath::get_hex_corners(Vector2i center, float size) {
+TypedArray<Vector2> HexMath::get_hex_corners(Vector2i center, float size) {
     auto corners = hexmath::get_hex_corners(hx(center), size);
     std::array<Vector2, 6> gd_corners;
     for (size_t i = 0; i < corners.size(); i++) {
