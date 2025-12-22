@@ -91,6 +91,15 @@ Vector2i HexMath::pixel_to_hex(Vector2 pixel, float size) {
     return gd(hexmath::pixel_to_hex(hx(pixel), size)); // Convert from and to Vector2i
 }
 
+std::array<Vector2, 6> HexMath::get_hex_corners(Vector2i center, float size) {
+    auto corners = hexmath::get_hex_corners(hx(center), size);
+    std::array<Vector2, 6> gd_corners;
+    for (size_t i = 0; i < corners.size(); i++) {
+        gd_corners[i] = gd(corners[i]);
+    }
+    return gd_corners;
+}
+
 bool HexMath::is_in_range(Vector2i coord, int radius) {
     return hexmath::is_in_range(hx(coord), radius);
 }
@@ -139,6 +148,7 @@ void HexMath::_bind_methods() {
     ClassDB::bind_static_method("HexMath", D_METHOD("get_neighbors", "coord"), &HexMath::get_neighbors);
     ClassDB::bind_static_method("HexMath", D_METHOD("hex_to_pixel", "hex", "size"), &HexMath::hex_to_pixel);
     ClassDB::bind_static_method("HexMath", D_METHOD("pixel_to_hex", "pixel", "size"), &HexMath::pixel_to_hex);
+    ClassDB::bind_static_method("HexMath", D_METHOD("get_hex_corners", "center", "size"), &HexMath::get_hex_corners);
     ClassDB::bind_static_method("HexMath", D_METHOD("is_in_range", "coord", "radius"), &HexMath::is_in_range);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_range", "radius", "center"), &HexMath::get_all_in_range);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_all_in_ring", "radius", "width", "init_direction", "center"), &HexMath::get_all_in_ring);
