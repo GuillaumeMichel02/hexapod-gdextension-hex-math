@@ -52,10 +52,6 @@ namespace hexmath {
     // Calculates the pixel coordinates of the six corners of a hexagon
     // centered at the given axial coordinate and with the specified size.
     inline std::array<Vec2f, 6> get_hex_corners(Vec2i center, float size) {
-        if (size <= 0) {
-            throw std::invalid_argument("Size must be positive");
-        }
-
         std::array<Vec2f, 6> corners;
         Vec2f center_pixel = hex_to_pixel(center, size);
         for (int i = 0; i < 6; i++) {

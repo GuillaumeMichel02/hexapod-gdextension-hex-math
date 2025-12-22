@@ -92,12 +92,13 @@ Vector2i HexMath::pixel_to_hex(Vector2 pixel, float size) {
 }
 
 TypedArray<Vector2> HexMath::get_hex_corners(Vector2i center, float size) {
+    TypedArray<Vector2> result;
     auto corners = hexmath::get_hex_corners(hx(center), size);
-    std::array<Vector2, 6> gd_corners;
+    result.resize(corners.size());
     for (size_t i = 0; i < corners.size(); i++) {
-        gd_corners[i] = gd(corners[i]);
+        result[i] = gd(corners[i]);
     }
-    return gd_corners;
+    return result;
 }
 
 bool HexMath::is_in_range(Vector2i coord, int radius) {
