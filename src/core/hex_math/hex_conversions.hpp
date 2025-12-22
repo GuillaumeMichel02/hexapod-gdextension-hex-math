@@ -63,6 +63,10 @@ namespace hexmath {
         return corners;
     }
 
+    inline int angle_to_direction(float angle) {
+        return int(angle * 3.0f / hexmath::PI) % 6;
+    }
+
 } // namespace hexmath
 
 #endif // HEX_CONVERSIONS_HPP

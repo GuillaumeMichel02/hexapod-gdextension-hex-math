@@ -31,6 +31,7 @@ public:
     static Vector2 hex_to_pixel(Vector2i coord, float size);
     static Vector2i pixel_to_hex(Vector2 pixel, float size);
     static TypedArray<Vector2> get_hex_corners(Vector2i center, float size);
+    static int angle_to_direction(float angle);
     static bool is_in_range(Vector2i coord, int radius);
     static bool is_in_cone(Vector2i coord, int direction, int angle_width, Vector2i center);
     static bool is_in_ring(Vector2i coord, int radius, Vector2i center);

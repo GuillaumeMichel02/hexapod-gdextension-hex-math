@@ -101,6 +101,10 @@ TypedArray<Vector2> HexMath::get_hex_corners(Vector2i center, float size) {
     return result;
 }
 
+int HexMath::angle_to_direction(float angle) {
+    return hexmath::angle_to_direction(angle);
+}
+
 bool HexMath::is_in_range(Vector2i coord, int radius) {
     return hexmath::is_in_range(hx(coord), radius);
 }
@@ -162,6 +166,7 @@ void HexMath::_bind_methods() {
     ClassDB::bind_static_method("HexMath", D_METHOD("hex_to_pixel", "hex", "size"), &HexMath::hex_to_pixel);
     ClassDB::bind_static_method("HexMath", D_METHOD("pixel_to_hex", "pixel", "size"), &HexMath::pixel_to_hex);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_hex_corners", "center", "size"), &HexMath::get_hex_corners);
+    ClassDB::bind_static_method("HexMath", D_METHOD("angle_to_direction", "angle"), &HexMath::angle_to_direction);
     ClassDB::bind_static_method("HexMath", D_METHOD("is_in_range", "coord", "radius"), &HexMath::is_in_range);
     ClassDB::bind_static_method("HexMath", D_METHOD("is_in_cone", "coord", "direction", "angle_width", "center"), &HexMath::is_in_cone);
     ClassDB::bind_static_method("HexMath", D_METHOD("is_in_ring", "coord", "radius", "center"), &HexMath::is_in_ring);
