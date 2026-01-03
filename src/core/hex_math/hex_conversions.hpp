@@ -39,7 +39,6 @@ namespace hexmath {
         else if (r_diff > s_diff) {
             round_r = -round_q - round_s;
         }
-
         return Vec2i(round_q, round_r);
     }
 
