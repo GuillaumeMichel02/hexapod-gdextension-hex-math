@@ -26,6 +26,18 @@ namespace hexmath {
         return neighbors;
     }
 
+    inline Vec2i get_corner_neighbor(Vec2i coord, int corner) {
+        return coord + CORNER_DIRECTIONS[corner % 6];
+    }
+
+    inline std::array<Vec2i, 6> get_corner_neighbors(Vec2i coord) {
+        std::array<Vec2i, 6> corner_neighbors;
+        for (int i = 0 ; i < 6 ; i++) {
+            corner_neighbors[i] = coord + CORNER_DIRECTIONS[i];
+        }
+        return corner_neighbors;
+    }
+
 } // namespace hexmath
 
 #endif // HEX_NEIGHBORS_HPP
