@@ -45,7 +45,7 @@ namespace hexmath {
 
     inline Vec2i pixel_to_hex(Vec2f pixel, float size) {
         float q = (SQRT_3/3 * pixel.q - 1.0f/3 * pixel.r) / size;
-        float r = (2.0f/3 * pixel.q) / size;
+        float r = (2.0f/3 * pixel.r) / size;
         return round_hex(q, r);
     }
 
