@@ -71,14 +71,28 @@ float HexMath::get_angle(Vector2i a, Vector2i b) {
 }
 
 Vector2i HexMath::get_neighbor(Vector2i coord, int direction) {
-    return gd(hexmath::get_neighbor(hx(coord), direction)); // Convert from and to Vector2i
+    return gd(hexmath::get_neighbor(hx(coord), direction));
+}
+
+Vector2i HexMath::get_corner_neighbor(Vector2i coord, int corner) {
+    return gd(hexmath::get_corner_neighbor(hx(coord), corner));
 }
 
 TypedArray<Vector2i> HexMath::get_neighbors(Vector2i coord) {
     TypedArray<Vector2i> result;
     result.resize(6);
     for (int i = 0; i < 6; i++) {
-        result[i] = gd(hexmath::get_neighbor(hx(coord), i)); // Convert from and to Vector2i
+        result[i] = gd(hexmath::get_neighbor(hx(coord), i));
+    }
+    return result;
+}
+
+TypedArray<Vector2i> HexMath::get_corner_neighbors(Vector2i coord) {
+    TypedArray<Vector2i> result;
+    result.resize(6);
+    auto corner_neighbors = hexmath::get_corner_neighbors(hx(coord));
+    for (size_t i = 0; i < corner_neighbors.size(); i++) {
+        result[i] = gd(corner_neighbors[i]);
     }
     return result;
 }
@@ -91,9 +105,9 @@ Vector2i HexMath::pixel_to_hex(Vector2 pixel, float size) {
     return gd(hexmath::pixel_to_hex(hx(pixel), size)); // Convert from and to Vector2i
 }
 
-TypedArray<Vector2> HexMath::get_hex_corners(Vector2i center, float size) {
+TypedArray<Vector2> HexMath::get_hex_corners(Vector2i center, float size, float ratio) {
     TypedArray<Vector2> result;
-    auto corners = hexmath::get_hex_corners(hx(center), size);
+    auto corners = hexmath::get_hex_corners(hx(center), size, ratio);
     result.resize(corners.size());
     for (size_t i = 0; i < corners.size(); i++) {
         result[i] = gd(corners[i]);
@@ -162,10 +176,12 @@ void HexMath::_bind_methods() {
     ClassDB::bind_static_method("HexMath", D_METHOD("dot_product", "a", "b"), &HexMath::dot_product);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_angle", "a", "b"), &HexMath::get_angle);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_neighbor", "coord", "direction"), &HexMath::get_neighbor);
+    ClassDB::bind_static_method("HexMath", D_METHOD("get_corner_neighbor", "coord"), &HexMath::get_corner_neighbor);
     ClassDB::bind_static_method("HexMath", D_METHOD("get_neighbors", "coord"), &HexMath::get_neighbors);
+    ClassDB::bind_static_method("HexMath", D_METHOD("get_corner_neighbors", "coord"), &HexMath::get_corner_neighbors);
     ClassDB::bind_static_method("HexMath", D_METHOD("hex_to_pixel", "hex", "size"), &HexMath::hex_to_pixel);
     ClassDB::bind_static_method("HexMath", D_METHOD("pixel_to_hex", "pixel", "size"), &HexMath::pixel_to_hex);
-    ClassDB::bind_static_method("HexMath", D_METHOD("get_hex_corners", "center", "size"), &HexMath::get_hex_corners);
+    ClassDB::bind_static_method("HexMath", D_METHOD("get_hex_corners", "center", "size", "ratio"), &HexMath::get_hex_corners);
     ClassDB::bind_static_method("HexMath", D_METHOD("angle_to_direction", "angle"), &HexMath::angle_to_direction);
     ClassDB::bind_static_method("HexMath", D_METHOD("is_in_range", "coord", "radius"), &HexMath::is_in_range);
     ClassDB::bind_static_method("HexMath", D_METHOD("is_in_cone", "coord", "direction", "angle_width", "center"), &HexMath::is_in_cone);
